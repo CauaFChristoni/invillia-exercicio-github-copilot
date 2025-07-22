@@ -98,21 +98,21 @@ def signup_for_activity(activity_name: str, email: str):
     if activity_name not in activities:
         raise HTTPException(status_code=404, detail="Activity not found")
 
-    # Get the specific activity
+    # Obtém a atividade específica
     activity = activities[activity_name]
 
-    # Check if student is already signed up
+    # Verifica se o aluno já está inscrito
     if email in activity["participants"]:
         raise HTTPException(status_code=400, detail="Student is already signed up for this activity")
 
-    # Check if activity is full
+    # Verifica se a atividade está lotada
     if len(activity["participants"]) >= activity["max_participants"]:
         raise HTTPException(status_code=400, detail="Activity is full")
 
-    # Validate email format (basic check for school domain)
+    # Valida o formato do email (verificação básica do domínio da escola)
     if not email.endswith("@mergington.edu"):
         raise HTTPException(status_code=400, detail="Email must be from mergington.edu domain")
 
-    # Add student
+    # Adiciona o aluno
     activity["participants"].append(email)
     return {"message": f"Signed up {email} for {activity_name}"}
