@@ -92,7 +92,6 @@ def get_activities():
 
 
 @app.post("/activities/{activity_name}/signup")
-# Validar se o aluno já está inscrito
 def signup_for_activity(activity_name: str, email: str):
     """Sign up a student for an activity"""
     # Validate activity exists
@@ -102,11 +101,11 @@ def signup_for_activity(activity_name: str, email: str):
     # Obtém a atividade específica
     activity = activities[activity_name]
 
-    # Verifica se o aluno já está inscrito
+    # Validar se o aluno já está inscrito
     if email in activity["participants"]:
         raise HTTPException(status_code=400, detail="Student is already signed up for this activity")
 
-    # Verifica se a atividade está lotada
+    # Validar se a atividade está lotada
     if len(activity["participants"]) >= activity["max_participants"]:
         raise HTTPException(status_code=400, detail="Activity is full")
 
